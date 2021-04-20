@@ -1,0 +1,81 @@
+package sk.kasv.onofrej.task;
+
+import sk.kasv.onofrej.task.collection.Task;
+import sk.kasv.onofrej.task.mongodb.MongoImpl;
+
+import java.util.Date;
+import java.util.List;
+
+/**
+ * Hello world!
+ *
+@@ -9,5 +15,22 @@
+    public static void main( String[] args )
+    {
+        System.out.println( "Hello World!" );
+        //testAddNewTask();
+        printAllTasks();
+    }
+
+    private static void printAllTasks() {
+        MongoImpl mongo = new MongoImpl();
+        List<Task> list = mongo.getAllTasks();
+        for(Task t: list){
+            System.out.println(t.toString());
+        }
+    }
+
+    public static void testAddNewTask(){
+        Task task;
+        task = new Task("Presadit muskaty",2,false, new Date());
+        MongoImpl mongo = new MongoImpl();
+        mongo.insertTask(task);
+    }
+}
+  48  src/main/java/sk/kasv/onofrej/task/collection/Task.java 
+@@ -11,4 +11,52 @@
+    private boolean done;
+    private Date date;
+    private double price;
+
+    public Task(String name, int priority, boolean done, Date date) {
+        this.name = name;
+        this.priority = priority;
+        this.done = done;
+        this.date = date;
+        this.price=-1;
+        id=null;
+    }
+
+    public Task(String name, int priority, boolean done, Date date, double price) {
+        this(name,priority,done,date);  // volame konstriktor so 4 parametrami
+        this.price = price;
+    }
+
+    public void setId(ObjectId id) {
+        this.id = id;
+    }
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public boolean isDone() {
+        return done;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public double getPrice() {
+        return price;
+    }
